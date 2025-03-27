@@ -2,28 +2,31 @@ import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TodoService } from '../../services/todo.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-todo',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  template: `
-    <h2>Add Todo</h2>
-
-    <input [formControl]="todo" placeholder="New todo" />
-    <button (click)="add()">Add</button>
-  `
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './add-todo.component.html',
+  styleUrls: ['./add-todo.component.css']
 })
 export class AddTodoComponent {
   todo = new FormControl('', Validators.required);
+  showError = false; 
 
   constructor(private todoService: TodoService, private router: Router) {}
 
   add() {
     const value = this.todo.value?.trim();
 
-    if (!value) return;
+    if (!value) {
+      this.todo.setErrors({ required: true });
+      this.showError = true; 
+      return;
+    }
 
+    this.showError = false; 
     this.todoService.add(value);
     this.router.navigate(['/']);
   }

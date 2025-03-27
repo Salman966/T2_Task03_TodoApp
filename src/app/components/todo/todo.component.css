@@ -1,0 +1,51 @@
+.todo-item {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.2s ease;
+  }
+  
+  .todo-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .todo-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .todo-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .todo-text {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .todo-text.completed {
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  .delete-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+  
+  .delete-icon:hover {
+    opacity: 1;
+  }
+  

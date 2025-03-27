@@ -1,0 +1,21 @@
+<div class="todo-item">
+  <div class="todo-content">
+    <input
+      type="checkbox"
+      [checked]="completed"
+      (change)="complete.emit()"
+      class="todo-checkbox"
+    />
+
+    <span [class.completed]="completed" class="todo-text">
+      {{ text }}
+    </span>
+  </div>
+
+  <img
+    src="https://i.pinimg.com/736x/94/fe/9f/94fe9f2bc1c059f27df2bbb19bb708e9.jpg"
+    alt="Delete"
+    (click)="remove.emit()"
+    class="delete-icon"
+  />
+</div>

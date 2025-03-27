@@ -1,1 +1,21 @@
-<p>home works!</p>
+<div class="home-container">
+    <div class="todo-box">
+      <h1 class="todo-title">Todo Application ✅</h1>
+  
+      <div *ngFor="let todo of todos; let i = index">
+        <app-todo
+          [text]="todo.text"
+          [completed]="todo.completed"
+          (complete)="complete(i)"
+          (remove)="remove(i)">
+        </app-todo>
+      </div>
+  
+      <div class="add-button-container">
+        <a routerLink="/add-todo">
+          <button class="add-button">Add Task</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  
