@@ -4,11 +4,11 @@
     <h1 class="todo-title">Todo Application ✅</h1>
 
     <div *ngFor="let todo of todos">
-      <app-todo
-        [todo]="todo"
-        (completed)="onTodoCompleted($event)"
-        (deleted)="onTodoDeleted($event)">
-      </app-todo>
+      <app-todo 
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (todoDeleted)="handleTodoDeleted($event)">
+    </app-todo>
     </div>
 
     <div class="add-button-container">

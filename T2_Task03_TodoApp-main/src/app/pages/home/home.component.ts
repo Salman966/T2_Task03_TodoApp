@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TodoService } from '../../services/todo.service';
 import { TodoComponent } from '../../components/todo/todo.component';
 import { Todo } from '../../types/todo.type';
+import { Subject } from 'rxjs'; 
+import { takeUntil } from 'rxjs/operators'; 
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,10 @@ import { Todo } from '../../types/todo.type';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   todos: Todo[] = [];
   username: string = '';
+  private destroy$ = new Subject<void>(); 
 
   constructor(private todoService: TodoService, private router: Router) {}
 
@@ -26,7 +29,10 @@ export class HomeComponent implements OnInit {
     this.loadTodos();
 
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$) 
+      )
       .subscribe(() => {
         this.loadTodos();
       });
@@ -40,17 +46,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onTodoCompleted(todo: Todo): void {
-    if (todo.userId === 0) {
-      this.todoService.toggleLocalComplete(todo.id);
-    }
-    todo.completed = !todo.completed;
+  handleTodoDeleted(id: number): void {
+    this.todos = this.todos.filter(t => t.id !== id);
   }
 
-  onTodoDeleted(todo: Todo): void {
-    if (todo.userId === 0) {
-      this.todoService.deleteLocalTodo(todo.id);
-    }
-    this.todos = this.todos.filter(t => t.id !== todo.id);
+  ngOnDestroy(): void {
+    console.log('Unsubscribed!');
+    this.destroy$.next(); 
+    this.destroy$.complete();
   }
 }

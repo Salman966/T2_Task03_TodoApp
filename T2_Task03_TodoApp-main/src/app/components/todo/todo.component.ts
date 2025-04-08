@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Todo } from '../../types/todo.type'; 
+import { Todo } from '../../types/todo.type';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-todo',
@@ -10,15 +11,22 @@ import { Todo } from '../../types/todo.type';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent {
-  @Input() todo!: Todo;    
-  @Output() completed = new EventEmitter<Todo>(); 
-  @Output() deleted = new EventEmitter<Todo>();    
+  @Input() todo!: Todo;
+  @Output() todoDeleted = new EventEmitter<number>();
+
+  constructor(private todoService: TodoService) {}
 
   toggleComplete(): void {
-    this.completed.emit(this.todo);
+    if (this.todo.userId === 0) {
+      this.todoService.toggleLocalComplete(this.todo.id);
+    }
+    this.todo.completed = !this.todo.completed;
   }
 
   deleteTodo(): void {
-    this.deleted.emit(this.todo);
+    if (this.todo.userId === 0) {
+      this.todoService.deleteLocalTodo(this.todo.id);
+    }
+    this.todoDeleted.emit(this.todo.id);
   }
 }
