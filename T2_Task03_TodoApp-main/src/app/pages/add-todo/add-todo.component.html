@@ -1,0 +1,26 @@
+<div class="add-container">
+    <div class="add-box">
+      <h2 class="add-title">  Add New Task ➕</h2>
+  
+      <div class="input-row">
+        <input
+          [formControl]="todo"
+          placeholder="Enter your task..."
+          class="todo-input"
+          (keydown.enter)="add()"
+        />
+        <button (click)="add()" class="add-button">
+          Add
+        </button>
+      </div>
+  
+      
+      <div
+        *ngIf="showError && todo.invalid && todo.errors?.['required']"
+        class="text-red-600 mt-2 text-sm"
+      >
+         This field is required. ⚠️
+      </div>
+    </div>
+  </div>
+  

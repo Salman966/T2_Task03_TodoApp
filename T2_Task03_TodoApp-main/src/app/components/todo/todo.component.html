@@ -1,0 +1,14 @@
+<div class="todo-item">
+  <label class="checkbox-label">
+    <input 
+      type="checkbox" 
+      [checked]="todo.completed" 
+      (change)="toggleComplete()" 
+    />
+    <span [class.completed]="todo.completed">{{ todo.todo }}</span>
+  </label>
+
+  <button (click)="deleteTodo()" class="delete-button">
+    <img src="https://i.pinimg.com/236x/94/fe/9f/94fe9f2bc1c059f27df2bbb19bb708e9.jpg" alt="Delete" />
+  </button>
+</div>
